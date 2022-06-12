@@ -8,8 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class ProductTest extends TestCase
 {
-    
-    
     /**
      * @var Product|MockObject
      */
@@ -18,7 +16,9 @@ class ProductTest extends TestCase
     
     protected function setUp()
     {
-        $this->object = $this->getMockBuilder(Product::class)->disableOriginalConstructor()->getMockForAbstractClass();
+        // Currently the getNumber(), getTitle(), getPrice() methods are mocked
+        $this->object = $this->getMockBuilder(Product::class)->disableOriginalConstructor()
+            ->setMethods(["getNumber", "getTitle", "getPrice"])->getMockForAbstractClass();
     }
     
     
@@ -30,5 +30,27 @@ class ProductTest extends TestCase
     {
         $this->assertTrue(class_exists(Product::class));
         $this->assertTrue($this->object instanceof Product);
+    }
+
+
+    /**
+     * @testdox Checks format of string.
+     * @group unit
+     *
+     * @covers \NiceshopsDev\NiceAcademy\Tests\Advanced\Shop\Product::__toString
+     */
+    public function testToString()
+    {
+        // Given
+        $this->object->expects($this->once())->method("getNumber")->willReturn("2");
+        $this->object->expects($this->once())->method("getTitle")->willReturn("NiceSite");
+        $this->object->expects($this->once())->method("getPrice")->willReturn(490.905);
+        $expected = "#2 NiceSite, EUR 490.91";
+
+        // When
+        $result = $this->object->__toString();
+
+        // Then
+        $this->assertSame($expected, $result, "Invalid string format received: " . $result);
     }
 }

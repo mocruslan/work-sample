@@ -78,10 +78,14 @@ class Product
     
     
     /**
+     * Returns a string in the following format:
+     *
+     * `#<PRODUCT_NUMBER> <PRODUCT_TITLE>, EUR <PRODUCT_PRICE #,##>`
+     *
      * @return string
      */
     public function __toString()
     {
-        return "#" . $this->getNumber() . " " . $this->getTitle();
+        return "#" . $this->getNumber() . " " . $this->getTitle() . ", EUR " . round($this->getPrice(), 2);
     }
 }
