@@ -18,6 +18,8 @@ class NiceClass
     
     
     /**
+     * Returns the string "be nice".
+     *
      * @return string
      */
     public function result(): string
