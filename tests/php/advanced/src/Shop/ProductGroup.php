@@ -26,19 +26,16 @@ class ProductGroup
     
     
     /**
+     * Removes the provided product from the list if it's found.
+     *
      * @param Product $product
      *
      * @return $this
      */
     public function removeProduct(Product $product): self
     {
-        foreach ($this->getProduct_List() as $index => $productInList) {
-            $productComparator = new ProductComparator($productInList);
-            if ($productComparator->isSame($product)) {
-                unset($this->arrProduct[$index]);
-                break;
-            }
-        }
+        // Remove the product from the list if it matches any case
+        $this->arrProduct = array_diff($this->getProduct_List(), [$product]);
         
         return $this;
     }
