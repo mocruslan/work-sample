@@ -151,11 +151,11 @@ class ProductGroupTest extends TestCase
      *
      * @dataProvider removeProductProvider
      *
-     * @param Product[] $arrProduct
-     * @param Product $productToRemove
-     * @param Product[] $arrExpectedResults
+     * @param ProductTypeInterface[] $arrProduct
+     * @param ProductTypeInterface $productToRemove
+     * @param ProductTypeInterface[] $arrExpectedResults
      */
-    public function testRemoveProduct(array $arrProduct, Product $productToRemove, array $arrExpectedResults)
+    public function testRemoveProduct(array $arrProduct, ProductTypeInterface $productToRemove, array $arrExpectedResults)
     {
         // Given
         foreach ($arrProduct as $product) {
@@ -181,11 +181,11 @@ class ProductGroupTest extends TestCase
      *
      * @dataProvider getProductCountProvider
      *
-     * @param Product[] $arrProduct
-     * @param Product $productToSearch
+     * @param ProductTypeInterface[] $arrProduct
+     * @param ProductTypeInterface $productToSearch
      * @param int $expectedCount
      */
-    public function testGetProductCount(array $arrProduct, Product $productToSearch, int $expectedCount)
+    public function testGetProductCount(array $arrProduct, ProductTypeInterface $productToSearch, int $expectedCount)
     {
         // Given
         $productGroup = $this->getMockBuilder(ProductGroup::class)->disableOriginalConstructor()
@@ -210,10 +210,10 @@ class ProductGroupTest extends TestCase
      *
      * @dataProvider removeProducts_with_NumberProvider
      *
-     * @param Product[] $arrProduct
+     * @param ProductTypeInterface[] $arrProduct
      * @param string $numberToRemove
      * @param int|null $maxCount
-     * @param Product[] $arrExpectedResults
+     * @param ProductTypeInterface[] $arrExpectedResults
      */
     public function testRemoveProducts_with_Number(array $arrProduct, string $numberToRemove, ?int $maxCount,
                                                    array $arrExpectedResults)
@@ -241,7 +241,7 @@ class ProductGroupTest extends TestCase
      *
      * @dataProvider getPriceProvider
      *
-     * @param Product[] $arrProduct
+     * @param ProductTypeInterface[] $arrProduct
      * @param float $expectedPriceSum
      */
     public function testGetPrice(array $arrProduct, float $expectedPriceSum)

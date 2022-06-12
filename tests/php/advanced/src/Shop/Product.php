@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace NiceshopsDev\NiceAcademy\Tests\Advanced\Shop;
 
 
-class Product implements PriceAwareInterface
+class Product implements ProductTypeInterface, PriceAwareInterface
 {
     /**
      * @var string
@@ -71,11 +71,11 @@ class Product implements PriceAwareInterface
     /**
      * Checks if the provided product has the same number.
      *
-     * @param Product $product
+     * @param ProductTypeInterface $product
      *
      * @return bool
      */
-    public function hasSameNumber(Product $product): bool
+    public function hasSameNumber(ProductTypeInterface $product): bool
     {
         $comparator = new ProductComparator($this);
         return $comparator->hasSameNumber($product);

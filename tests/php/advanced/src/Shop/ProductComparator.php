@@ -7,7 +7,7 @@ namespace NiceshopsDev\NiceAcademy\Tests\Advanced\Shop;
 class ProductComparator
 {
     /**
-     * @var Product
+     * @var ProductTypeInterface
      */
     private $product;
     
@@ -15,18 +15,18 @@ class ProductComparator
     /**
      * ProductComparator constructor.
      *
-     * @param Product $product
+     * @param ProductTypeInterface $product
      */
-    public function __construct(Product $product)
+    public function __construct(ProductTypeInterface $product)
     {
         $this->product = $product;
     }
     
     
     /**
-     * @return Product
+     * @return ProductTypeInterface
      */
-    public function getProduct(): Product
+    public function getProduct(): ProductTypeInterface
     {
         return $this->product;
     }
@@ -35,11 +35,11 @@ class ProductComparator
     /**
      * Checks if passed product is the same instance
      *
-     * @param Product $product
+     * @param ProductTypeInterface $product
      *
      * @return bool
      */
-    public function isSame(Product $product)
+    public function isSame(ProductTypeInterface $product): bool
     {
         return $this->getProduct() === $product;
     }
@@ -48,10 +48,10 @@ class ProductComparator
     /**
      * Checks if the provided product has the same number.
      *
-     * @param Product $product
+     * @param ProductTypeInterface $product
      * @return bool
      */
-    public function hasSameNumber(Product $product): bool
+    public function hasSameNumber(ProductTypeInterface $product): bool
     {
         return $this->getProduct()->getNumber() === $product->getNumber();
     }

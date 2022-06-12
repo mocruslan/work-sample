@@ -8,7 +8,7 @@ use InvalidArgumentException;
 class Cart implements CartInterface
 {
     /**
-     * Each `Product` is managed within its own `ProductGroup`. If there is no group for the `Product`, a new
+     * Each product is managed within its own `ProductGroup`. If there is no group for the product, a new
      * `ProductGroup` will be created.
      *
      * @var ProductGroup[]
@@ -20,10 +20,10 @@ class Cart implements CartInterface
      * Checks if the provided $product is within the $group.
      *
      * @param ProductGroup $group
-     * @param Product $product
+     * @param ProductTypeInterface $product
      * @return bool
      */
-    private function isProductInProductGroup(ProductGroup $group, Product $product): bool
+    private function isProductInProductGroup(ProductGroup $group, ProductTypeInterface $product): bool
     {
         if ($group->getProductCount($product) > 0) {
             return true;
@@ -66,13 +66,13 @@ class Cart implements CartInterface
     /**
      * Add a specified $product for $count times into the cart.
      *
-     * @param Product $product
+     * @param ProductTypeInterface $product
      * @param int $count
      * @return CartInterface
      *
      * @throws InvalidArgumentException
      */
-    public function addProduct(Product $product, int $count = 1): CartInterface
+    public function addProduct(ProductTypeInterface $product, int $count = 1): CartInterface
     {
         if ($count < 1) {
             throw new InvalidArgumentException(sprintf("[%i] is not a valid count.", $count));
@@ -105,13 +105,13 @@ class Cart implements CartInterface
     /**
      * Remove a specified $product for $count times from the cart.
      *
-     * @param Product $product
+     * @param ProductTypeInterface $product
      * @param int $count
      * @return CartInterface
      *
      * @throws InvalidArgumentException
      */
-    public function removeProduct(Product $product, int $count = 1): CartInterface
+    public function removeProduct(ProductTypeInterface $product, int $count = 1): CartInterface
     {
         if ($count < 1) {
             throw new InvalidArgumentException(sprintf("[%i] is not a valid count.", $count));

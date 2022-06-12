@@ -7,17 +7,17 @@ namespace NiceshopsDev\NiceAcademy\Tests\Advanced\Shop;
 class ProductGroup implements PriceAwareInterface
 {
     /**
-     * @var Product[]
+     * @var ProductTypeInterface[]
      */
     private $arrProduct = [];
     
     
     /**
-     * @param Product $product
+     * @param ProductTypeInterface $product
      *
      * @return ProductGroup
      */
-    public function addProduct(Product $product): self
+    public function addProduct(ProductTypeInterface $product): self
     {
         $this->arrProduct[] = $product;
         
@@ -28,11 +28,11 @@ class ProductGroup implements PriceAwareInterface
     /**
      * Removes the provided product from the list if it's found.
      *
-     * @param Product $product
+     * @param ProductTypeInterface $product
      *
      * @return $this
      */
-    public function removeProduct(Product $product): self
+    public function removeProduct(ProductTypeInterface $product): self
     {
         // Remove the product from the list if it matches any case
         $this->arrProduct = array_diff($this->getProduct_List(), [$product]);
@@ -44,11 +44,11 @@ class ProductGroup implements PriceAwareInterface
     /**
      * Returns the occurrences of the provided product.
      *
-     * @param Product $product
+     * @param ProductTypeInterface $product
      *
      * @return int
      */
-    public function getProductCount(Product $product): int
+    public function getProductCount(ProductTypeInterface $product): int
     {
         // Initialize ProductComparator since it's needed multiple times in the following case
         $comparator = new ProductComparator($product);
@@ -112,7 +112,7 @@ class ProductGroup implements PriceAwareInterface
     
     
     /**
-     * @return Product[]
+     * @return ProductTypeInterface[]
      */
     public function getProduct_List(): array
     {
