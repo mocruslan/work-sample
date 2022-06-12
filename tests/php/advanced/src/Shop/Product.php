@@ -67,13 +67,16 @@ class Product
     
     
     /**
+     * Checks if the provided product has the same number.
+     *
      * @param Product $product
      *
      * @return bool
      */
     public function hasSameNumber(Product $product): bool
     {
-        return $this->getNumber() === $product->getNumber();
+        $comparator = new ProductComparator($this);
+        return $comparator->hasSameNumber($product);
     }
     
     

@@ -18,7 +18,9 @@ class ProductComparatorTest extends TestCase
     
     protected function setUp()
     {
-        $this->object = $this->getMockBuilder(ProductComparator::class)->disableOriginalConstructor()->getMockForAbstractClass();
+        // Currently the getProduct() method is mocked
+        $this->object = $this->getMockBuilder(ProductComparator::class)->disableOriginalConstructor()
+            ->setMethods(["getProduct"])->getMockForAbstractClass();
     }
     
     
@@ -31,5 +33,29 @@ class ProductComparatorTest extends TestCase
         $this->assertTrue(class_exists(ProductComparator::class));
         $this->assertTrue($this->object instanceof ProductComparator);
     }
-    
+
+
+    /**
+     * @testdox Checks if the number of the products matches.
+     * @group unit
+     *
+     * @covers \NiceshopsDev\NiceAcademy\Tests\Advanced\Shop\ProductComparator::hasSameNumber
+     */
+    public function testHasSameNumber()
+    {
+        // Given
+        $sameProduct = new Product("2", "AnotherNiceSite", 40.02);
+        $differentProduct = new Product("3", "YetAnotherNiceSite", 40.50);
+        $this->object->expects($this->exactly(2))->method("getProduct")->willReturn(
+            new Product("2", "ActualNiceSite", 63.20)
+        );
+
+        // When
+        $resultEquals = $this->object->hasSameNumber($sameProduct);
+        $resultDifferent = $this->object->hasSameNumber($differentProduct);
+
+        // Then
+        $this->assertTrue($resultEquals);
+        $this->assertFalse($resultDifferent);
+    }
 }

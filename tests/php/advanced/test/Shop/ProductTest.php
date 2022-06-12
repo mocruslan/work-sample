@@ -53,4 +53,27 @@ class ProductTest extends TestCase
         // Then
         $this->assertSame($expected, $result, "Invalid string format received: " . $result);
     }
+
+
+    /**
+     * @testdox Checks if the number of the products matches.
+     * @group unit
+     *
+     * @covers \NiceshopsDev\NiceAcademy\Tests\Advanced\Shop\Product::hasSameNumber
+     */
+    public function testHasSameNumber()
+    {
+        // Given
+        $sameProduct = new Product("2", "AnotherNiceSite", 40.02);
+        $differentProduct = new Product("3", "YetAnotherNiceSite", 40.02);
+        $this->object->expects($this->exactly(2))->method("getNumber")->willReturn("2");
+
+        // When
+        $resultEquals = $this->object->hasSameNumber($sameProduct);
+        $resultDifferent = $this->object->hasSameNumber($differentProduct);
+
+        // Then
+        $this->assertTrue($resultEquals);
+        $this->assertFalse($resultDifferent);
+    }
 }
