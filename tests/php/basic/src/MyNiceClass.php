@@ -13,4 +13,15 @@ class MyNiceClass extends NiceClass
     {
         return trim("always " . parent::result());
     }
+
+
+    /**
+     * Returns the number of characters from the `result()` parent method call.
+     *
+     * @return int
+     */
+    public function count(): int
+    {
+        return strlen(parent::result());
+    }
 }

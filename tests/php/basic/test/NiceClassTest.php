@@ -72,4 +72,21 @@ class NiceClassTest extends TestCase
         // Then
         $this->assertSame($dataProvider, $result, "result() returned unexpected string: " . $result);
     }
+
+
+    /**
+     * @testdox Checks if the count returned the expected amount.
+     * @group unit
+     */
+    public function testCount()
+    {
+        // Given
+        $expected = 7;
+
+        // When
+        $result = $this->object->count();
+
+        // Then
+        $this->assertSame($expected, $result, "count() returned unexpected number: " . $result);
+    }
 }
