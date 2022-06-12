@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace NiceshopsDev\NiceAcademy\Tests\Advanced\Shop;
 
 
-class ProductGroup
+class ProductGroup implements PriceAwareInterface
 {
     /**
      * @var Product[]
@@ -117,5 +117,23 @@ class ProductGroup
     public function getProduct_List(): array
     {
         return $this->arrProduct;
+    }
+
+    /**
+     * Returns the summarized price of the `ProductGroup` in `PriceItem` format.
+     *
+     * @return PriceItem
+     */
+    public function getPrice(): PriceItem
+    {
+        // Create empty price item object, which is later on filled with the data
+        $priceItem = new PriceItem(0.0);
+
+        // Add price for each product in the list
+        foreach ($this->getProduct_List() as $product) {
+            $priceItem->addPrice($product->getPrice());
+        }
+
+        return $priceItem;
     }
 }

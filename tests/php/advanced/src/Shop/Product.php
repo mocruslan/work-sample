@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace NiceshopsDev\NiceAcademy\Tests\Advanced\Shop;
 
 
-class Product
+class Product implements PriceAwareInterface
 {
     /**
      * @var string
@@ -58,11 +58,13 @@ class Product
 
 
     /**
-     * @return float
+     * Returns the price as `PriceItem` class.
+     *
+     * @return PriceItem
      */
-    public function getPrice(): float
+    public function getPrice(): PriceItem
     {
-        return $this->price->getPrice();
+        return $this->price;
     }
     
     
@@ -89,6 +91,7 @@ class Product
      */
     public function __toString()
     {
-        return "#" . $this->getNumber() . " " . $this->getTitle() . ", EUR " . round($this->getPrice(), 2);
+        return "#" . $this->getNumber() . " " . $this->getTitle() . ", EUR " .
+            round($this->getPrice()->getPrice(), 2);
     }
 }

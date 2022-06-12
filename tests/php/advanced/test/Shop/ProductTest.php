@@ -35,6 +35,7 @@ class ProductTest extends TestCase
 
     /**
      * @testdox Checks format of string.
+     *
      * @group unit
      *
      * @covers \NiceshopsDev\NiceAcademy\Tests\Advanced\Shop\Product::__toString
@@ -44,7 +45,7 @@ class ProductTest extends TestCase
         // Given
         $this->object->expects($this->once())->method("getNumber")->willReturn("2");
         $this->object->expects($this->once())->method("getTitle")->willReturn("NiceSite");
-        $this->object->expects($this->once())->method("getPrice")->willReturn(490.905);
+        $this->object->expects($this->once())->method("getPrice")->willReturn(new PriceItem(490.905));
         $expected = "#2 NiceSite, EUR 490.91";
 
         // When
@@ -57,6 +58,7 @@ class ProductTest extends TestCase
 
     /**
      * @testdox Checks if the number of the products matches.
+     *
      * @group unit
      *
      * @covers \NiceshopsDev\NiceAcademy\Tests\Advanced\Shop\Product::hasSameNumber
@@ -75,5 +77,26 @@ class ProductTest extends TestCase
         // Then
         $this->assertTrue($resultEquals);
         $this->assertFalse($resultDifferent);
+    }
+
+
+    /**
+     * @testdox Tests the implementation of the `PriceAwareInterface` function `getPrice()`.
+     *
+     * @group unit
+     *
+     * @covers \NiceshopsDev\NiceAcademy\Tests\Advanced\Shop\Product::getPrice
+     */
+    public function testGetPrice()
+    {
+        // Given
+        $expectedPrice = 40.02;
+        $testProduct = new Product("1", "NiceSite", $expectedPrice);
+
+        // When
+        $resultPrice = $testProduct->getPrice()->getPrice();
+
+        // Then
+        $this->assertEquals($expectedPrice, $resultPrice);
     }
 }

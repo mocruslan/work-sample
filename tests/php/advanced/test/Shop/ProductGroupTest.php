@@ -74,6 +74,26 @@ class ProductGroupTest extends TestCase
             [$product_A, $product_B, $product_C], "1", 1, [$product_A]
         ];
     }
+
+
+    public function getPriceProvider(): \Generator
+    {
+        $product_A = new Product("1", "Produkt A", 10.00);
+        $product_B = new Product("2", "Produkt B", 20.00);
+        $product_C = new Product("3", "Produkt C", 30.00);
+
+        yield 'product list with sum 60' => [
+            [$product_A, $product_B, $product_C], 60.0
+        ];
+
+        yield 'empty product list with sum 0' => [
+            [], 0.0
+        ];
+
+        yield 'product list with same product sum 60' => [
+            [$product_A, $product_A, $product_A], 30.0
+        ];
+    }
     // endregion
 
     /**
@@ -209,5 +229,32 @@ class ProductGroupTest extends TestCase
         // Then
         $this->assertEqualsCanonicalizing($arrExpectedResults, $arrResult,
             "Unexpected entries in remove result list!");
+    }
+
+
+    /**
+     * @testdox Tests the implementation of the `PriceAwareInterface` function `getPrice()`.
+     *
+     * @group unit
+     *
+     * @covers \NiceshopsDev\NiceAcademy\Tests\Advanced\Shop\ProductGroup::getPrice
+     *
+     * @dataProvider getPriceProvider
+     *
+     * @param Product[] $arrProduct
+     * @param float $expectedPriceSum
+     */
+    public function testGetPrice(array $arrProduct, float $expectedPriceSum)
+    {
+        // Given
+        $productGroup = $this->getMockBuilder(ProductGroup::class)->disableOriginalConstructor()
+            ->setMethods(["getProduct_List"])->getMockForAbstractClass();
+        $productGroup->expects($this->once())->method("getProduct_List")->with()->willReturn($arrProduct);
+
+        // When
+        $resultSumPrice = $productGroup->getPrice()->getPrice();
+
+        // Then
+        $this->assertSame($expectedPriceSum, $resultSumPrice);
     }
 }
