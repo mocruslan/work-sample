@@ -5,6 +5,8 @@ namespace NiceshopsDev\NiceAcademy\Tests\Basic;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
+use ReflectionMethod;
 
 class NiceClassTest extends TestCase
 {
@@ -44,14 +46,19 @@ class NiceClassTest extends TestCase
     /**
      * @testdox Checks for expected return string.
      * @group unit
+     * 
+     * @throws ReflectionException
      */
     public function testGetString()
     {
         // Given
         $expected = "be ";
+        // Since getString() is private we have to use reflection in order to validate the functionality of the unit-test
+        $getStringMethod = new ReflectionMethod($this->object, "getString");
+        $getStringMethod->setAccessible(true);
 
         // When
-        $result = $this->object->getString();
+        $result = $getStringMethod->invoke($this->object);
 
         // Then
         $this->assertSame($expected, $result, "getString() returned unexpected string: " . $result);

@@ -12,7 +12,7 @@ class NiceClass implements Countable
      *
      * @return string
      */
-    public function getString(): string
+    private function getString(): string
     {
         return "be ";
     }
