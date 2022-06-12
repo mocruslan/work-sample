@@ -8,6 +8,16 @@ use PHPUnit\Framework\TestCase;
 
 class NiceClassTest extends TestCase
 {
+    // region Data providers
+    public function resultDataProvider(): array
+    {
+        return [
+            ["be nice"],
+        ];
+    }
+    // endregion
+
+
     /**
      * @var NiceClass|MockObject
      */
@@ -44,6 +54,22 @@ class NiceClassTest extends TestCase
         $result = $this->object->getString();
 
         // Then
-        $this->assertEquals($expected, $result, "getString() returned unexpected string: " . $result);
+        $this->assertSame($expected, $result, "getString() returned unexpected string: " . $result);
+    }
+
+
+    /**
+     * @testdox Compares the result string.
+     * @group unit
+     *
+     * @dataProvider resultDataProvider
+     */
+    public function testResult($dataProvider)
+    {
+        // When
+        $result = $this->object->result();
+
+        // Then
+        $this->assertSame($dataProvider, $result, "result() returned unexpected string: " . $result);
     }
 }
