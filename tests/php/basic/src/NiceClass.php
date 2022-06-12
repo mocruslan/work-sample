@@ -6,9 +6,9 @@ namespace NiceshopsDev\NiceAcademy\Tests\Basic;
 
 class NiceClass
 {
-    
-    
     /**
+     * Returns the string "be ".
+     *
      * @return string
      */
     public function getString(): string

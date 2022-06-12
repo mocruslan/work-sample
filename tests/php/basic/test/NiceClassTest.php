@@ -8,8 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class NiceClassTest extends TestCase
 {
-    
-    
     /**
      * @var NiceClass|MockObject
      */
@@ -30,5 +28,22 @@ class NiceClassTest extends TestCase
     {
         $this->assertTrue(class_exists(NiceClass::class));
         $this->assertTrue($this->object instanceof NiceClass);
+    }
+
+
+    /**
+     * @testdox Checks for expected return string.
+     * @group unit
+     */
+    public function testGetString()
+    {
+        // Given
+        $expected = "be ";
+
+        // When
+        $result = $this->object->getString();
+
+        // Then
+        $this->assertEquals($expected, $result, "getString() returned unexpected string: " . $result);
     }
 }
