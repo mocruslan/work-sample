@@ -6,42 +6,43 @@ namespace NiceshopsDev\NiceAcademy\Tests\Advanced\Shop;
 
 class Product
 {
-    
-    
     /**
      * @var string
      */
-    private $number;
+    private $number = "";
     
     
     /**
      * @var string
      */
     private $title = "";
-    
-    
-    private $price;
-    
-    
+
+
+    /**
+     * @var PriceItem
+     */
+    private $price = 0.0;
+
+
     /**
      * Product constructor.
      *
      * @param string $number
      * @param string $title
-     * @param        $price
+     * @param float $price
      */
-    public function __construct(string $number, string $title, $price)
+    public function __construct(string $number, string $title, float $price)
     {
         $this->number = $number;
         $this->title = $title;
-        $this->price = $price;
+        $this->price = new PriceItem($price);
     }
     
     
     /**
      * @return string
      */
-    public function getNumber()
+    public function getNumber(): string
     {
         return $this->number;
     }
@@ -50,15 +51,18 @@ class Product
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    
-    public function getPrice()
+
+
+    /**
+     * @return float
+     */
+    public function getPrice(): float
     {
-        return $this->price;
+        return $this->price->getPrice();
     }
     
     
