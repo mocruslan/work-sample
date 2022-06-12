@@ -42,15 +42,21 @@ class ProductGroup
     
     
     /**
+     * Returns the occurrences of the provided product.
+     *
      * @param Product $product
      *
      * @return int
      */
     public function getProductCount(Product $product): int
     {
+        // Initialize ProductComparator since it's needed multiple times in the following case
+        $comparator = new ProductComparator($product);
+
         $count = 0;
         foreach ($this->getProduct_List() as $productInList) {
-            if ($productInList === $product) {
+            // Check if the products match (have the same instance)
+            if ($comparator->isSame($productInList)) {
                 ++$count;
             }
         }

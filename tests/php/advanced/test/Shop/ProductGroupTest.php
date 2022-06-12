@@ -30,6 +30,26 @@ class ProductGroupTest extends TestCase
             [$product_A, $product_B], $product_A, [$product_B]
         ];
     }
+
+
+    public function getProductCount(): \Generator
+    {
+        $product_A = new Product("1", "Produkt A", 10.00);
+        $product_B = new Product("2", "Produkt B", 20.00);
+        $product_C = new Product("3", "Produkt C", 30.00);
+
+        yield 'product list has no entries. count occurrence of A' => [
+            [], $product_A, 0
+        ];
+
+        yield 'product list has product A, B and A. count occurrence of A' => [
+            [$product_A, $product_B, $product_A], $product_A, 2
+        ];
+
+        yield 'product list has product A, B and C. count occurrence of A' => [
+            [$product_A, $product_B, $product_C], $product_A, 1
+        ];
+    }
     // endregion
 
     /**
@@ -81,9 +101,9 @@ class ProductGroupTest extends TestCase
     /**
      * @testdox Tests removeProduct() method with multiple data inputs and compares the result with the expected array.
      *
-     * @group        unit
+     * @group unit
      *
-     * @covers       \NiceshopsDev\NiceAcademy\Tests\Advanced\Shop\ProductGroup::removeProduct
+     * @covers \NiceshopsDev\NiceAcademy\Tests\Advanced\Shop\ProductGroup::removeProduct
      *
      * @dataProvider removeProductProvider
      *
@@ -105,5 +125,33 @@ class ProductGroupTest extends TestCase
         // Then
         $this->assertEqualsCanonicalizing($arrExpectedResults, $result->getProduct_List(),
             "Unexpected entries in product list!");
+    }
+
+
+    /**
+     * @testdox Tests getProductCount() method with multiple data inputs and compares the result with the expected array.
+     *
+     * @group unit
+     *
+     * @covers \NiceshopsDev\NiceAcademy\Tests\Advanced\Shop\ProductGroup::getProductCount
+     *
+     * @dataProvider getProductCount
+     *
+     * @param Product[] $arrProduct
+     * @param Product $productToSearch
+     * @param int $expectedCount
+     */
+    public function testGetProductCount(array $arrProduct, Product $productToSearch, int $expectedCount)
+    {
+        // Given
+        $productGroup = $this->getMockBuilder(ProductGroup::class)->disableOriginalConstructor()
+            ->setMethods(["getProduct_List"])->getMockForAbstractClass();
+        $productGroup->expects($this->once())->method("getProduct_List")->with()->willReturn($arrProduct);
+
+        // When
+        $result = $productGroup->getProductCount($productToSearch);
+
+        // Then
+        $this->assertSame($expectedCount, $result);
     }
 }
