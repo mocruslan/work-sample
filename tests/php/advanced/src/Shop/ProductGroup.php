@@ -80,12 +80,34 @@ class ProductGroup
      * @param string   $number
      * @param int|null $maxCount NULL means no limit (all products with defined number)
      *
-     * @todo implement method
      * @return array    list of removed products
      */
-    public function removeProducts_with_Number(string $number, int $maxCount = null)
+    public function removeProducts_with_Number(string $number, int $maxCount = null): array
     {
-        return [];
+        $arrDeletedEntries = [];
+
+        // If not max count was provided, we use the array size as the max count
+        if ($maxCount == null) {
+            $maxCount = count($this->getProduct_List());
+        }
+
+        $deletedEntryCount = 0;
+        foreach ($this->getProduct_List() as $index => $productInList) {
+            if ($productInList->getNumber() === $number) {
+                // If the number matches we copy the entry into the deleted entry array and remove it from the global list
+                $arrDeletedEntries[] = $productInList;
+                unset($this->arrProduct[$index]);
+
+                ++$deletedEntryCount;
+            }
+
+            if ($deletedEntryCount === $maxCount) {
+                // Exit the loop if we have deleted the maximum number of products
+                break;
+            }
+        }
+
+        return $arrDeletedEntries;
     }
     
     

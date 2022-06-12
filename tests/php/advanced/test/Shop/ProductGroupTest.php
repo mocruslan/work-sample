@@ -50,6 +50,30 @@ class ProductGroupTest extends TestCase
             [$product_A, $product_B, $product_C], $product_A, 1
         ];
     }
+
+
+    public function removeProducts_with_NumberProvider(): \Generator
+    {
+        $product_A = new Product("1", "Produkt A", 10.00);
+        $product_B = new Product("2", "Produkt B", 20.00);
+        $product_C = new Product("1", "Produkt C", 30.00);
+
+        yield 'product list has no entries. remove number 1 with no max count' => [
+            [], "1", null, []
+        ];
+
+        yield 'product list has product A, B and C. remove number 2 with no max count' => [
+            [$product_A, $product_B, $product_C], "2", null, [$product_B]
+        ];
+
+        yield 'product list has product A, B and C. remove number 1 with no max count' => [
+            [$product_A, $product_B, $product_C], "1", null, [$product_A, $product_C]
+        ];
+
+        yield 'product list has product A, B and C. remove number 1 with max count 1' => [
+            [$product_A, $product_B, $product_C], "1", 1, [$product_A]
+        ];
+    }
     // endregion
 
     /**
@@ -99,7 +123,7 @@ class ProductGroupTest extends TestCase
 
 
     /**
-     * @testdox Tests removeProduct() method with multiple data inputs and compares the result with the expected array.
+     * @testdox Tests `removeProduct()` method with multiple data inputs and compares the result with the expected array.
      *
      * @group unit
      *
@@ -129,7 +153,7 @@ class ProductGroupTest extends TestCase
 
 
     /**
-     * @testdox Tests getProductCount() method with multiple data inputs and compares the result with the expected array.
+     * @testdox Tests `getProductCount()` method with multiple data inputs and compares the result with the expected array.
      *
      * @group unit
      *
@@ -153,5 +177,37 @@ class ProductGroupTest extends TestCase
 
         // Then
         $this->assertSame($expectedCount, $result);
+    }
+
+
+    /**
+     * @testdox Tests `removeProducts_with_Number()` method with multiple data inputs and compares the result with the
+     * expected array.
+     *
+     * @group unit
+     *
+     * @covers \NiceshopsDev\NiceAcademy\Tests\Advanced\Shop\ProductGroup::removeProducts_with_Number
+     *
+     * @dataProvider removeProducts_with_NumberProvider
+     *
+     * @param Product[] $arrProduct
+     * @param string $numberToRemove
+     * @param int|null $maxCount
+     * @param Product[] $arrExpectedResults
+     */
+    public function testRemoveProducts_with_Number(array $arrProduct, string $numberToRemove, ?int $maxCount,
+                                                   array $arrExpectedResults)
+    {
+        // Given
+        $productGroup = $this->getMockBuilder(ProductGroup::class)->disableOriginalConstructor()
+            ->setMethods(["getProduct_List"])->getMockForAbstractClass();
+        $productGroup->expects($this->atMost(2))->method("getProduct_List")->with()->willReturn($arrProduct);
+
+        // When
+        $arrResult = $productGroup->removeProducts_with_Number($numberToRemove, $maxCount);
+
+        // Then
+        $this->assertEqualsCanonicalizing($arrExpectedResults, $arrResult,
+            "Unexpected entries in remove result list!");
     }
 }
