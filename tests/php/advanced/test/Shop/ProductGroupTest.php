@@ -32,7 +32,7 @@ class ProductGroupTest extends TestCase
     }
 
 
-    public function getProductCount(): \Generator
+    public function getProductCountProvider(): \Generator
     {
         $product_A = new Product("1", "Produkt A", 10.00);
         $product_B = new Product("2", "Produkt B", 20.00);
@@ -135,7 +135,7 @@ class ProductGroupTest extends TestCase
      *
      * @covers \NiceshopsDev\NiceAcademy\Tests\Advanced\Shop\ProductGroup::getProductCount
      *
-     * @dataProvider getProductCount
+     * @dataProvider getProductCountProvider
      *
      * @param Product[] $arrProduct
      * @param Product $productToSearch
