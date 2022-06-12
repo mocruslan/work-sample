@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class PriceItemTest extends TestCase
 {
-    
     /**
      * @var PriceItem|MockObject
      */
@@ -45,14 +44,15 @@ class PriceItemTest extends TestCase
          * @var PriceItem|MockObject $priceItem
          */
         $priceItem = $this->getMockBuilder(PriceItem::class)->disableOriginalConstructor()->getMockForAbstractClass();
-        $this->assertSame(0.0, $priceItem->price);
-        
+        $this->assertSame(0.0, $priceItem->getPrice());
+
         $priceItem->addPrice_by_Value(10.0);
-        $this->assertSame(10.0, $priceItem->price);
-        
+        $this->assertSame(10.0, $priceItem->getPrice());
+
         $priceItem->addPrice_by_Value(-4.5);
-        $this->assertSame(5.5, $priceItem->price);
+        $this->assertSame(5.5, $priceItem->getPrice());
     }
+
     
     /**
      * @return Generator
@@ -82,11 +82,11 @@ class PriceItemTest extends TestCase
          * @var PriceItem|MockObject $priceItem
          */
         $priceItem = $this->getMockBuilder(PriceItem::class)->disableOriginalConstructor()->getMockForAbstractClass();
-        
+
         foreach ($arrPrice as $price) {
             $priceItem->addPrice(new PriceItem($price));
         }
-        
-        $this->assertSame($expectedPrice, $priceItem->price);
+
+        $this->assertSame($expectedPrice, $priceItem->getPrice());
     }
 }
